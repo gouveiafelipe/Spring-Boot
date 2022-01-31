@@ -88,7 +88,7 @@ public class BasicStreamsDemo {
         intStream.forEach(System.out::println);
 
         System.out.println("----- rangeClosed -----");
-        intStream = IntStream.range(0, 10);
+        intStream = IntStream.rangeClosed(0, 10);
         intStream.forEach(System.out::println);
 
         System.out.println("----- charStream -----");
