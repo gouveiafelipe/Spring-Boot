@@ -1,9 +1,13 @@
 package com.example.Spring.Boot.services.impl;
 
+import com.example.Spring.Boot.entities.Cliente;
+import com.example.Spring.Boot.mapstruct.dtos.AccountGetDto;
 import com.example.Spring.Boot.mapstruct.dtos.AccountPostDto;
 import com.example.Spring.Boot.mapstruct.dtos.AccountUpdateDto;
-import com.example.Spring.Boot.entities.Cliente;
 import com.example.Spring.Boot.entities.Conta;
+
+import com.example.Spring.Boot.mapstruct.mapper.ContaMapper;
+
 import com.example.Spring.Boot.repositories.ClienteRepository;
 import com.example.Spring.Boot.repositories.ContaRepository;
 import com.example.Spring.Boot.services.ContaServices;
@@ -19,26 +23,26 @@ public class ContaServicesImplementations implements ContaServices {
     @Autowired
     ContaRepository contaRepository;
 
+
     @Autowired
-    ClienteRepository clienteRepository;
+    private ContaMapper contaMapper;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-
-    private final ClienteServicesImplementations clienteServicesImplementations;
 
     public ContaServicesImplementations(ClienteServicesImplementations clienteServicesImplementations) {
-        this.clienteServicesImplementations = clienteServicesImplementations;
     }
 
     @Override
-    public List<Conta> listAllBankAccounts() {
-        return contaRepository.findAll();
+    public List<AccountGetDto> listAllBankAccounts() {
+        return contaMapper.accountToAccountGetDtos(contaRepository.findAll());
+
     }
 
     @Override
-    public List<Conta> listBankAccountWithClientId(Long id) {
-        Cliente cliente = clienteRepository.findById(id).get();
-        return contaRepository.findByFkClient(id);
+    public List<AccountGetDto> listBankAccountWithClientId(Long id) {
+        return contaMapper.accountToAccountGetDtos(contaRepository.findByFkClient(id));
     }
 
     @Override
@@ -52,7 +56,12 @@ public class ContaServicesImplementations implements ContaServices {
     }
 
     @Override
-    public Conta accountCreate(Long id, AccountPostDto accountPostDto) {
-        return null;
+    public AccountGetDto accountCreate(Long id, AccountPostDto accountPostDto) {
+        Cliente cliente = clienteRepository.findById(id).get();
+        Conta conta = contaMapper.accountPostDtoToAccount(accountPostDto);
+        cliente.getContas().add(conta);
+        return contaMapper.accountToAccountGetDto(conta);
+
+
     }
 }

@@ -1,4 +1,6 @@
 package com.example.Spring.Boot.mapstruct.dtos;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.*;
 
 
@@ -10,6 +12,8 @@ import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 
+@Setter
+@Getter
 public class AccountUpdateDto {
 
 

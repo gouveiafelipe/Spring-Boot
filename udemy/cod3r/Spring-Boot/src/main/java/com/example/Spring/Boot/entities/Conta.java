@@ -3,16 +3,23 @@ package com.example.Spring.Boot.entities;
 import com.example.Spring.Boot.entities.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Date;
 
-@Entity
-@Table(name = "conta")
 @Data
+@Entity
+@Getter
+@Setter
+@Table(name = "conta")
+
 
 public class Conta implements Serializable {
 
@@ -33,7 +40,7 @@ public class Conta implements Serializable {
     private Cliente cliente;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Instant dateCreation;
+    private Date dateCreation;
 
 
     public Conta() {
@@ -53,12 +60,13 @@ public class Conta implements Serializable {
         this.accountType = accountType.getAccountType();
     }
 
-    public Instant getDateCreation() {
-        return dateCreation;
+
+    public void saca(BigDecimal saldo){
+        this.saldo = this.saldo.subtract(saldo);
     }
 
-    public void setDateCreation(Instant dateCreation) {
-        this.dateCreation = dateCreation;
+    public void deposita(BigDecimal saldo) {
+        this.saldo = this.saldo.add(saldo);
     }
 
     public Long getId() {
@@ -69,20 +77,13 @@ public class Conta implements Serializable {
         this.id = id;
     }
 
+
     public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void deposita(BigDecimal saldo) {
-        this.saldo = this.saldo.add(saldo);
-    }
-
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
-    }
-
-    public void saca(BigDecimal saldo){
-        this.saldo = this.saldo.subtract(saldo);
     }
 
     public Cliente getCliente() {
@@ -92,4 +93,14 @@ public class Conta implements Serializable {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+
 }
