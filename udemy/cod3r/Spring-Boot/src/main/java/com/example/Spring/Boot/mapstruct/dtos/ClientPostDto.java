@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class ClientPostDto {
 
-    @JsonProperty("id")
+
     private Long id;
 
     @NotBlank(message = "Nome precisa ser informado")

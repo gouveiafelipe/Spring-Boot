@@ -18,6 +18,7 @@ import java.util.Date;
 @Data
 public class AccountGetDto {
 
+
     private Long id;
 
     private int accountType;

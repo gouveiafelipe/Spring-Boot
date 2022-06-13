@@ -59,6 +59,8 @@ public class ContaServicesImplementations implements ContaServices {
     public AccountGetDto accountCreate(Long id, AccountPostDto accountPostDto) {
         Cliente cliente = clienteRepository.findById(id).get();
         Conta conta = contaMapper.accountPostDtoToAccount(accountPostDto);
+        conta.setCliente(cliente);
+        contaRepository.save(conta);
         cliente.getContas().add(conta);
         return contaMapper.accountToAccountGetDto(conta);
 
