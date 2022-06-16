@@ -11,11 +11,14 @@ import com.example.Spring.Boot.mapstruct.mapper.ContaMapper;
 import com.example.Spring.Boot.repositories.ClienteRepository;
 import com.example.Spring.Boot.repositories.ContaRepository;
 import com.example.Spring.Boot.services.ContaServices;
+import com.example.Spring.Boot.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContaServicesImplementations implements ContaServices {
@@ -41,8 +44,13 @@ public class ContaServicesImplementations implements ContaServices {
     }
 
     @Override
-    public List<AccountGetDto> listBankAccountWithClientId(Long id) {
-        return contaMapper.accountToAccountGetDtos(contaRepository.findByFkClient(id));
+    public List<AccountGetDto> listBankAccountWithClientId(Long id) throws ResourceNotFoundException{
+
+        List<AccountGetDto> list = contaMapper.accountToAccountGetDtos(contaRepository.findByFkClient(id));
+
+        Optional<List<AccountGetDto>> obj = Optional.of(list);
+
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @Override

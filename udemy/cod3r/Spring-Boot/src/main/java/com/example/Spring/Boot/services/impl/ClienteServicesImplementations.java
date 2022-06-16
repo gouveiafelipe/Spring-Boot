@@ -2,16 +2,18 @@ package com.example.Spring.Boot.services.impl;
 
 
 import com.example.Spring.Boot.entities.Cliente;
+import com.example.Spring.Boot.mapstruct.dtos.AccountGetDto;
 import com.example.Spring.Boot.mapstruct.dtos.ClientGetDto;
 import com.example.Spring.Boot.mapstruct.dtos.ClientPostDto;
 import com.example.Spring.Boot.mapstruct.mapper.ClienteMapper;
 import com.example.Spring.Boot.repositories.ClienteRepository;
 import com.example.Spring.Boot.services.ClienteServices;
+import com.example.Spring.Boot.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class ClienteServicesImplementations implements ClienteServices {
@@ -43,9 +45,18 @@ public class ClienteServicesImplementations implements ClienteServices {
 
 
     @Override
-    public ClientGetDto listClientId(Long id) {
+    public ClientGetDto listClientId(Long id) throws ResourceNotFoundException{
+        try{
+         ClientGetDto a = clienteMapper.clientToClientGetDto(clienteRepository.findById(id).get());
+
+        } catch (ResourceNotFoundException e){
+             new ResourceNotFoundException(id);
+        }
         return clienteMapper.clientToClientGetDto(clienteRepository.findById(id).get());
+
     }
+
+
 
 
 //    @Override

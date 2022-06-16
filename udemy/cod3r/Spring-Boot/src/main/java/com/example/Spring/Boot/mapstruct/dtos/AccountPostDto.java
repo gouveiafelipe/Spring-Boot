@@ -24,7 +24,6 @@ public class AccountPostDto {
 
     private int accountType;
 
-    private Conta contas;
 
     public AccountPostDto() {
     }

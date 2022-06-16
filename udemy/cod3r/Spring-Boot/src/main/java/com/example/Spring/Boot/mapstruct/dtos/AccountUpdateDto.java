@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 
 @Setter
 @Getter
-public class AccountUpdateDto {
+public class   AccountUpdateDto {
 
 
     private Long id;

@@ -25,6 +25,9 @@ public class AccountGetDto {
 
     private BigDecimal saldo;
 
+    private Cliente cliente;
+
+
 
     public AccountGetDto() {
     }
